@@ -1,0 +1,82 @@
+input.onButtonPressed(Button.A, function () {
+    neZha.setMotorSpeed(neZha.MotorList.M1, -60)
+})
+este codigo le dice al motor dc que arranque hacia adelante
+input.onButtonPressed(Button.B, function () {
+    neZha.setMotorSpeed(neZha.MotorList.M1, 60)
+    neZha.setServoAngel(neZha.ServoTypeList._360, neZha.ServoList.S1, 130)
+    basic.pause(2000)
+    neZha.setServoAngel(neZha.ServoTypeList._360, neZha.ServoList.S1, 180)
+    neZha.setMotorSpeed(neZha.MotorList.M1, 0)
+    basic.pause(500)
+    neZha.setServoAngel(neZha.ServoTypeList._360, neZha.ServoList.S1, 220)
+    neZha.setMotorSpeed(neZha.MotorList.M1, -60)
+    basic.pause(2200)
+    neZha.setServoAngel(neZha.ServoTypeList._360, neZha.ServoList.S1, 180)
+    neZha.setMotorSpeed(neZha.MotorList.M1, -60)
+})
+este codigo le dice al motor que cambie su direccion y luego arranque
+let d = 0
+let c = 0
+let b = 0
+let a = 0
+neZha.setServoAngel(neZha.ServoTypeList._360, neZha.ServoList.S1, 180)
+PlanetX_AILens.initModule()
+PlanetX_AILens.switchfunc(PlanetX_AILens.FuncList.Color)
+basic.forever(function () {
+    a = PlanetX_Basic.ultrasoundSensor(PlanetX_Basic.DigitalRJPin.J1, PlanetX_Basic.Distance_Unit_List.Distance_Unit_cm)
+    b = PlanetX_Basic.ultrasoundSensor(PlanetX_Basic.DigitalRJPin.J3, PlanetX_Basic.Distance_Unit_List.Distance_Unit_cm)
+    c = PlanetX_Basic.ultrasoundSensor(PlanetX_Basic.DigitalRJPin.J2, PlanetX_Basic.Distance_Unit_List.Distance_Unit_cm)
+    d = PlanetX_Basic.ultrasoundSensor(PlanetX_Basic.DigitalRJPin.J4, PlanetX_Basic.Distance_Unit_List.Distance_Unit_cm)
+   estas son las variables que representarian cada sensor ultrasonico
+    if (a >= 4 && a <= 45) {
+        neZha.setServoAngel(neZha.ServoTypeList._360, neZha.ServoList.S1, 260)
+        basic.pause(1600)
+        neZha.setServoAngel(neZha.ServoTypeList._360, neZha.ServoList.S1, 180)
+    }
+    esta parte dice que cuando el sensor detecte un obstaculo dentro de su rango este haga que el motor gire a la derecha para que de la curva
+    if (b >= 2 && b <= 8) {
+        neZha.setServoAngel(neZha.ServoTypeList._360, neZha.ServoList.S1, 145)
+        basic.pause(500)
+        neZha.setServoAngel(neZha.ServoTypeList._360, neZha.ServoList.S1, 180)
+    }
+    este codigo le dice al sensor que cuando detecte algo haga que el servomotor gire un poco para evitarlo
+    if (d >= 2 && d <= 6) {
+        neZha.setServoAngel(neZha.ServoTypeList._360, neZha.ServoList.S1, 145)
+        basic.pause(500)
+        neZha.setServoAngel(neZha.ServoTypeList._360, neZha.ServoList.S1, 180)
+    }
+    este codigo dice que cuando el sensor ultrasonico detecte algo haga que el servomotor gire un poco para evitar el bostaculo
+    if (c >= 2 && c <= 8) {
+        neZha.setServoAngel(neZha.ServoTypeList._360, neZha.ServoList.S1, 215)
+        basic.pause(500)
+        neZha.setServoAngel(neZha.ServoTypeList._360, neZha.ServoList.S1, 180)
+    }
+        este codigo dice que cuando el sensor ultrasonico detecte algo haga que el servomotor gire un poco para evitar el bostaculo
+
+    PlanetX_AILens.cameraImage()
+    if (PlanetX_AILens.colorCheck(PlanetX_AILens.ColorLs.red)) {
+        neZha.setServoAngel(neZha.ServoTypeList._360, neZha.ServoList.S1, 215)
+        basic.pause(2000)
+        neZha.setServoAngel(neZha.ServoTypeList._360, neZha.ServoList.S1, 145)
+        basic.pause(2000)
+        neZha.setServoAngel(neZha.ServoTypeList._360, neZha.ServoList.S1, 215)
+        basic.pause(1000)
+        neZha.setServoAngel(neZha.ServoTypeList._180, neZha.ServoList.S1, 180)
+        este codigo dice que cuando la camara detecte el color rojo esta de una curva evitando el obstaculo
+    }
+    if (PlanetX_AILens.colorCheck(PlanetX_AILens.ColorLs.green)) {
+        neZha.setServoAngel(neZha.ServoTypeList._360, neZha.ServoList.S1, 145)
+        basic.pause(2000)
+        neZha.setServoAngel(neZha.ServoTypeList._360, neZha.ServoList.S1, 215)
+        basic.pause(2000)
+        neZha.setServoAngel(neZha.ServoTypeList._360, neZha.ServoList.S1, 145)
+        basic.pause(1000)
+        neZha.setServoAngel(neZha.ServoTypeList._360, neZha.ServoList.S1, 180)
+    }
+            este codigo dice que cuando la camara detecte el color verde esta de una curva evitando el obstaculo
+
+})
+loops.everyInterval(78000, function () {
+    neZha.stopMotor(neZha.MotorList.M1)
+})este codigo le dice al motor que luego de 78 segundos este se detenga
